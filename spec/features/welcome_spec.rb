@@ -20,10 +20,8 @@ describe 'Welcome pages -' do
     within '.page-header' do
       expect(page).to have_content('About')
     end
-    within '.row' do
-      within '.col-md-8' do
-        expect(page).to have_content(copy)
-      end
+    within '.col-md-8' do
+      expect(page).to have_content(copy)
     end
   end
 
