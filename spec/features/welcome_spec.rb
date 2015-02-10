@@ -26,4 +26,15 @@ describe 'Welcome pages -' do
       end
     end
   end
+
+  scenario 'User can see the terms page' do
+    copy = "gCamp is not responsible for anything, unless it is positive. You many not take us to court. For anything. Ever."
+
+    visit '/'
+    click_on 'Terms'
+    within '.page-header' do
+      expect(page).to have_content('Terms')
+    end
+    expect(page).to have_content(copy)
+  end
 end
