@@ -37,4 +37,26 @@ describe 'Welcome pages -' do
     end
     expect(page).to have_content(copy)
   end
+
+  scenario 'User can see the FAQ page' do
+    q1 = 'What is gCamp?'
+    a1 = "gCamp is an awesome tool that is going to change your life. gCamp is your one stop shop to organize all your tasks. You'll also be able to track comments that you and others make. gCamp may eventually replace all need for paper and pens in the entire world. Well, maybe not, but it's going to be pretty cool."
+    q2 = 'How do I join gCamp?'
+    a2 = "As soon as it's ready for the public, you'll see a signup link in the upper right. Once that's there, just click it and fill in the form!"
+    q3 = 'When will gCamp be finished?'
+    a3 = "gCamp is a work in progress. That being said, it should be fully functional in the next few weeks. Functional. Check in daily for new features and awesome functionality. It's going to blow your mind. Organization is just a click away. Amazing!"
+
+    visit '/'
+    click_on 'FAQ'
+    within '.page-header' do
+      expect(page).to have_content('Frequently Asked Questions')
+    end
+    expect(page).to have_link(q1)
+    expect(page).to have_link(q2)
+    expect(page).to have_link(q3)
+    expect(page).to have_content(a1)
+    expect(page).to have_content(a2)
+    expect(page).to have_content(a3)
+    expect(page).to have_link('top')
+  end
 end

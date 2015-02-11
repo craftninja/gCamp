@@ -1,0 +1,15 @@
+<h1 class="page-header">Frequently Asked Questions</h1>
+
+<ul>
+  <% @common_questions.each do |common_question| %>
+    <li><%= link_to common_question.question, faq_path(anchor: common_question.slug) %></li>
+  <% end %>
+</ul>
+
+<% @common_questions.each do |common_question| %>
+  <h3 id="<%= common_question.slug %>"><%= common_question.question %></h3>
+  <p>
+    <%= common_question.answer %>
+  </p>
+  <a href="#top">top</a>
+<% end %>
