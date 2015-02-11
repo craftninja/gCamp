@@ -50,3 +50,15 @@
     </div>
   </div>
 </div>
+<div class="row">
+  <div class="col-md-12">
+    <% @quotes.each do |speaker, quote| %>
+      <p>
+        <%= quote %>
+      </p>
+      <p><em class="text-muted">
+        - <%= speaker %>
+      </em><p>
+    <% end %>
+  </div>
+</div>
