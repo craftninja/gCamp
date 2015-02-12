@@ -24,10 +24,11 @@ feature 'Tasks -' do
     expect(page).to have_content('Write amazing tests')
   end
 
-  scenario 'User can edit, complete and delete tasks' do
+  scenario 'User can edit, complete (only on edit form) and delete tasks' do
     visit tasks_path
     click_on 'New Task'
     fill_in 'Description', with: 'Refactor code'
+    expect(page).to_not have_content('Complete')
     click_on 'Create Task'
     click_on 'Edit'
     fill_in 'Description', with: 'Refactor tests'
