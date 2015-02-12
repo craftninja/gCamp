@@ -1,0 +1,29 @@
+<div class="page-header">
+  <div class="pull-right">
+    <%= link_to 'New User', new_user_path, class: 'btn btn-info' %>
+  </div>
+  <h1>Users</h1>
+</div>
+
+<table class="table">
+  <thead>
+    <th>
+      Name
+    </th>
+    <th>
+      Email
+    </th>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+    <tr>
+      <td>
+        <%= user.full_name %>
+      </td>
+      <td>
+        <%= mail_to user.email %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
