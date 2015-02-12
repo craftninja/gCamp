@@ -1,5 +1,11 @@
-<p>
-  Description: <%= @task.description %>
-</p>
+<div class="page-header">
+  <div class="pull-right">
+    <%= link_to 'Edit', edit_task_path, class: 'btn btn-info' %>
+  </div>
+  <h1><%= @task.description %></h1>
+</div>
 
-<%= link_to 'Edit', edit_task_path %>
+<ol class='breadcrumb'>
+  <li><%= link_to 'Tasks', tasks_path %></li>
+  <li><%= @task.description %></li>
+</ol>

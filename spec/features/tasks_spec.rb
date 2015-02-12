@@ -14,8 +14,12 @@ feature 'Tasks -' do
     fill_in 'Description', with: 'Write amazing tests'
     click_on 'Create Task'
     expect(page).to have_content('Task was successfully created')
-    expect(page).to have_content('Description: Write amazing tests')
-    click_on 'Tasks'
+    within '.page-header' do
+      expect(page).to have_content('Write amazing tests')
+    end
+    within 'footer' do
+      click_on 'Tasks'
+    end
     click_on 'Write amazing tests'
     expect(page).to have_content('Write amazing tests')
   end
@@ -29,7 +33,9 @@ feature 'Tasks -' do
     fill_in 'Description', with: 'Refactor tests'
     click_on 'Update Task'
     expect(page).to have_content('Refactor tests')
-    click_on 'Tasks'
+    within 'footer' do
+      click_on 'Tasks'
+    end
     expect(page).to have_content('Edit')
     click_on 'Delete'
     expect(page).to_not have_content('Refactor tests')
