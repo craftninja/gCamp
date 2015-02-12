@@ -13,6 +13,8 @@
     <th>
       Email
     </th>
+    <th>
+    </th>
   </thead>
   <tbody>
     <% @users.each do |user| %>
@@ -22,6 +24,11 @@
       </td>
       <td>
         <%= mail_to user.email %>
+      </td>
+      <td>
+        <div class="text-right">
+          <%= link_to 'Edit', edit_user_path(user) %>
+        </div>
       </td>
     </tr>
     <% end %>
