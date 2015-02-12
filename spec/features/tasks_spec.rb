@@ -21,4 +21,19 @@ feature 'Tasks -' do
     expect(page).to have_content('Description: Write amazing tests')
   end
 
+  scenario 'User can edit and delete tasks' do
+    visit tasks_path
+    click_on 'New Task'
+    fill_in 'Description', with: 'Refactor code'
+    click_on 'Create Task'
+    click_on 'Edit'
+    fill_in 'Description', with: 'Refactor tests'
+    click_on 'Update Task'
+    expect(page).to have_content('Refactor tests')
+    click_on 'Tasks'
+    expect(page).to have_content('Edit')
+    click_on 'Delete'
+    expect(page).to_not have_content('Refactor tests')
+  end
+
 end
