@@ -19,11 +19,16 @@
 </nav>
 
 <div class="container">
+
+  <% flash.each do |name, msg| %>
+    <%= content_tag :div, msg, class: name %>
+  <% end %>
+
   <%= yield %>
   <footer>
     <div class="row">
       <div class="col-md-6">
-        <%= link_to 'About', about_path %> | <%= link_to 'Terms', terms_path %> | <%= link_to 'FAQ', faq_path %>
+        <%= link_to 'About', about_path %> | <%= link_to 'Terms', terms_path %> | <%= link_to 'FAQ', faq_path %> | <%= link_to 'Tasks', tasks_path %>
       </div>
       <div class="col-md-6 text-right">
         <%= link_to 'https://www.linkedin.com/in/emilyplatzer' do %>
