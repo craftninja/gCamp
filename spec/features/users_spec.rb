@@ -7,7 +7,8 @@ feature 'Users -' do
     lname = 'Bartel'
     email = 'luke@example.com'
 
-    visit '/users'
+    visit '/'
+    click_on 'Users'
     click_on 'New User'
     fill_in 'First Name', with: fname
     fill_in 'Last Name', with: lname
