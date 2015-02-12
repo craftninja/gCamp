@@ -2,7 +2,13 @@
   <div class="pull-right">
     <%= link_to 'Edit', edit_task_path, class: 'btn btn-info' %>
   </div>
-  <h1><%= @task.description %></h1>
+  <h1>
+    <% if @task.completed %>
+      <s><%= @task.description %></s>
+    <% else %>
+      <%= @task.description %>
+    <% end %>
+  </h1>
 </div>
 
 <ol class='breadcrumb'>
