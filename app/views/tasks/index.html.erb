@@ -10,22 +10,36 @@
     <th>
       Description
     </th>
+    <th>
+      Due On
+    </th>
+    <th>
+    </th>
   </thead>
   <tbody>
     <% @tasks.each do |task| %>
-      <tr><td class="row">
-        <div class="col-md-6">
-          <% if task.completed %>
-            <s><%= link_to task.description, task_path(task) %></s>
-          <% else %>
-            <%= link_to task.description, task_path(task) %>
+      <tr>
+        <td>
+          <div>
+            <% if task.completed %>
+              <s><%= link_to task.description, task_path(task) %></s>
+            <% else %>
+              <%= link_to task.description, task_path(task) %>
+            <% end %>
+          </div>
+        </td>
+        <td>
+          <% if task.due_date %>
+            <%= task.due_date.strftime('%-m/%-d/%Y') %>
           <% end %>
-        </div>
-        <div class="text-right col-md-offset-6">
-          <%= link_to 'Edit', edit_task_path(task), class: "btn btn-info" %>
-          <%= link_to 'Delete', task_path(task), method: :delete, class: "btn btn-danger" %>
-        </div>
-      </td></tr>
+        </td>
+        <td>
+          <div class="text-right">
+            <%= link_to 'Edit', edit_task_path(task), class: "btn btn-info" %>
+            <%= link_to 'Delete', task_path(task), method: :delete, class: "btn btn-danger" %>
+          </div>
+        </td>
+      </tr>
     <% end %>
   </tbody>
 </table>

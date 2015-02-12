@@ -12,14 +12,22 @@ feature 'Tasks -' do
     click_on 'New Task'
     expect(page).to have_content('New Task')
     fill_in 'Description', with: 'Write amazing tests'
+    fill_in 'Due date', with: Date.today
     click_on 'Create Task'
     expect(page).to have_content('Task was successfully created')
     within '.page-header' do
       expect(page).to have_content('Write amazing tests')
     end
+    today = Date.today
+    month = today.month
+    day = today.day
+    year = today.year
+    expect(page).to have_content("#{month}/#{day}/#{year}")
     within 'footer' do
       click_on 'Tasks'
     end
+
+    expect(page).to have_content("#{month}/#{day}/#{year}")
     click_on 'Write amazing tests'
     expect(page).to have_content('Write amazing tests')
   end
