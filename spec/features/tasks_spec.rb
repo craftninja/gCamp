@@ -16,9 +16,8 @@ feature 'Tasks -' do
     expect(page).to have_content('Task was successfully created')
     expect(page).to have_content('Description: Write amazing tests')
     click_on 'Tasks'
+    click_on 'Write amazing tests'
     expect(page).to have_content('Write amazing tests')
-    click_on 'Show'
-    expect(page).to have_content('Description: Write amazing tests')
   end
 
   scenario 'User can edit and delete tasks' do
