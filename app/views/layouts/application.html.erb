@@ -19,9 +19,12 @@
 </nav>
 
 <div class="container">
-
-  <% flash.each do |name, msg| %>
-    <%= content_tag :div, msg, class: name %>
+  <% if flash.any? %>
+    <div class="alert alert-success" role="alert">
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, msg, class: name %>
+      <% end %>
+    </div>
   <% end %>
 
   <%= yield %>
