@@ -6,6 +6,6 @@ Rails.application.routes.draw do
   get '/faq'   => 'welcome#faq' , as: :faq
   resources :tasks
   resources :users
-  resources :projects, only: [:index, :new, :create]
+  resources :projects
 
 end
