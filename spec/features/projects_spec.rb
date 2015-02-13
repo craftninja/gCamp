@@ -27,7 +27,7 @@ feature 'Projects -' do
     end
   end
 
-  scenario 'User can edit projects' do
+  scenario 'User can edit and delete projects' do
     visit '/projects'
     click_on 'New Project'
     fill_in 'Name', with: 'Create a sweet web app'
@@ -38,6 +38,12 @@ feature 'Projects -' do
     expect(page).to_not have_content('Create a sweet web app')
     expect(page).to have_content('Create an awesome web app')
     expect(page).to have_content('Project was successfully updated')
+    click_on 'Delete'
+    within '.page-header' do
+      expect(page).to have_content('Projects')
+    end
+    expect(page).to_not have_content('Create an awesome web app')
+    expect(page).to have_content('Project was successfully deleted')
   end
 
 end
