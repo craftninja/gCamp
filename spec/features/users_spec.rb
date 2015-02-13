@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'Users -' do
 
-  scenario 'Users can create users' do
+  scenario 'Users can create users, see user show' do
     fname = 'Luke'
     lname = 'Bartel'
     email = 'luke@example.com'
@@ -19,8 +19,13 @@ feature 'Users -' do
       expect(page).to have_content('Users')
     end
 
-    expect(page).to have_content("#{fname} #{lname}")
     expect(page).to have_link(email)
+    click_on "#{fname} #{lname}"
+    within '.page-header' do
+      expect(page).to have_content("#{fname} #{lname}")
+    end
+    expect(page).to have_link(email)
+    expect(page).to have_link('Edit')
   end
 
   scenario 'Users can update and delete users' do
