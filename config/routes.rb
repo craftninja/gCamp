@@ -5,6 +5,6 @@ Rails.application.routes.draw do
   get '/terms' => 'welcome#terms', as: :terms
   get '/faq'   => 'welcome#faq' , as: :faq
   resources :tasks
-  resources :users, only: [:index, :new, :create, :edit, :update]
+  resources :users
 
 end

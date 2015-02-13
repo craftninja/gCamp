@@ -23,7 +23,7 @@ feature 'Users -' do
     expect(page).to have_link(email)
   end
 
-  scenario 'Users can update users' do
+  scenario 'Users can update and delete users' do
     fname = 'Luke'
     lname = 'Bartel'
 
@@ -38,6 +38,11 @@ feature 'Users -' do
     click_on 'Update User'
     expect(page).to have_content("#{lname}@example.com")
     expect(page).to_not have_content("#{fname}@example.com")
+    click_on 'Edit'
+    within '.well' do
+      click_on 'Delete User'
+    end
+    expect(page).to have_content('User was successfully deleted')
   end
 
 end

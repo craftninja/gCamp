@@ -1,3 +1,11 @@
 <h1 class="page-header">Edit User</h1>
 
 <%= render 'form', form_button: 'Update User' %>
+
+<div class='row'>
+  <div class='col-md-12'>
+    <div class='well well-lg col-md-offset-2 col-md-6 text-center'>
+      <%= link_to 'Delete User', user_path(@user), method: :delete, class: 'btn btn-danger' %>
+    </div>
+  </div>
+</div>
