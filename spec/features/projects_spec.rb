@@ -27,4 +27,17 @@ feature 'Projects -' do
     end
   end
 
+  scenario 'User can edit projects' do
+    visit '/projects'
+    click_on 'New Project'
+    fill_in 'Name', with: 'Create a sweet web app'
+    click_on 'Create Project'
+    click_on 'Edit'
+    fill_in 'Name', with: 'Create an awesome web app'
+    click_on 'Update Project'
+    expect(page).to_not have_content('Create a sweet web app')
+    expect(page).to have_content('Create an awesome web app')
+    expect(page).to have_content('Project was successfully updated')
+  end
+
 end
