@@ -46,4 +46,17 @@ feature 'Projects -' do
     expect(page).to have_content('Project was successfully deleted')
   end
 
+  scenario 'User must enter project name' do
+    visit projects_path
+    click_on 'New Project'
+    click_on 'Create Project'
+    within '.alert.alert-danger' do
+      expect(page).to have_content('1 error prohibited this form from being saved')
+      within 'ul li' do
+        expect(page).to have_content("Name can't be blank")
+      end
+    end
+  end
+
+
 end
