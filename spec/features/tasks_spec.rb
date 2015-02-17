@@ -56,4 +56,16 @@ feature 'Tasks -' do
     expect(page).to_not have_content('Refactor tests')
   end
 
+  scenario 'User must enter task description' do
+    visit tasks_path
+    click_on 'New Task'
+    click_on 'Create Task'
+    within '.alert.alert-danger' do
+      expect(page).to have_content('1 error prohibited this form from being saved')
+      within 'ul li' do
+        expect(page).to have_content("Description can't be blank")
+      end
+    end
+  end
+
 end
