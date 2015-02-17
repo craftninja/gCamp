@@ -50,4 +50,18 @@ feature 'Users -' do
     expect(page).to have_content('User was successfully deleted')
   end
 
+  scenario 'User must enter first name, last name and email' do
+    visit users_path
+    click_on 'New User'
+    click_on 'Create User'
+    within '.alert.alert-danger' do
+      expect(page).to have_content('3 errors prohibited this form from being saved')
+      within 'ul' do
+        expect(page).to have_content("First name can't be blank")
+        expect(page).to have_content("Last name can't be blank")
+        expect(page).to have_content("Email can't be blank")
+      end
+    end
+  end
+
 end
