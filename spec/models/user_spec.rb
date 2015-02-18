@@ -11,4 +11,20 @@ describe 'User -' do
     user.email = 'luke@example.com'
     expect(user.valid?).to be(true)
   end
+
+  it 'Validates uniqueness of Email' do
+    user1 = User.create!(
+      :first_name => 'Luke',
+      :last_name  => 'Bartel',
+      :email      => 'luke@example.com'
+    )
+
+    user2 = User.new(
+      :first_name => 'Luke',
+      :last_name  => 'McComb',
+      :email      => 'luke@example.com'
+    )
+
+    expect(user2.valid?).to be(false)
+  end
 end
