@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'User Auth -' do
-  scenario 'User can sign up' do
+  scenario 'User can sign up and sign out' do
     visit root_path
     click_on 'Sign Up'
     within '.well' do
@@ -18,5 +18,14 @@ describe 'User Auth -' do
       expect(page).to_not have_content('Sign Up')
     end
     expect(page).to have_content('You have successfully signed up')
+    within '.navbar' do
+      click_on 'Sign Out'
+    end
+    within '.navbar' do
+      expect(page).to_not have_content('Elowyn Florence')
+      expect(page).to_not have_content('Sign Out')
+      expect(page).to have_content('Sign Up')
+    end
+    expect(page).to have_content('You have successfully signed out')
   end
 end
