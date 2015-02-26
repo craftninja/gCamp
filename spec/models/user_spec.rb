@@ -9,6 +9,8 @@ describe 'User -' do
     user.last_name = 'Bartel'
     expect(user.valid?).to be(false)
     user.email = 'luke@example.com'
+    expect(user.valid?).to be(false)
+    user.password = 'password'
     expect(user.valid?).to be(true)
   end
 
@@ -16,13 +18,15 @@ describe 'User -' do
     user1 = User.create!(
       :first_name => 'Luke',
       :last_name  => 'Bartel',
-      :email      => 'luke@example.com'
+      :email      => 'luke@example.com',
+      :password   => 'password'
     )
 
     user2 = User.new(
       :first_name => 'Luke',
       :last_name  => 'McComb',
-      :email      => 'luke@example.com'
+      :email      => 'luke@example.com',
+      :password   => 'password'
     )
 
     expect(user2.valid?).to be(false)

@@ -6,6 +6,7 @@ feature 'Users -' do
     fname = 'Luke'
     lname = 'Bartel'
     email = 'luke@example.com'
+    password = 'password'
 
     visit '/'
     click_on 'Users'
@@ -13,6 +14,8 @@ feature 'Users -' do
     fill_in 'First Name', with: fname
     fill_in 'Last Name', with: lname
     fill_in 'Email', with: email
+    fill_in 'Password', with: password
+    fill_in 'Password Confirmation', with: password
     expect(page).to have_link('Cancel')
     click_on 'Create User'
     within '.page-header' do
@@ -31,12 +34,15 @@ feature 'Users -' do
   scenario 'Users can update and delete users' do
     fname = 'Luke'
     lname = 'Bartel'
+    password = 'password'
 
     visit '/users'
     click_on 'New User'
     fill_in 'First Name', with: fname
     fill_in 'Last Name', with: lname
     fill_in 'Email', with: "#{fname}@example.com"
+    fill_in 'Password', with: password
+    fill_in 'Password Confirmation', with: password
     click_on 'Create User'
     click_on 'Edit'
     fill_in 'Email', with: "#{lname}@example.com"
@@ -55,11 +61,12 @@ feature 'Users -' do
     click_on 'New User'
     click_on 'Create User'
     within '.alert.alert-danger' do
-      expect(page).to have_content('3 errors prohibited this form from being saved')
+      expect(page).to have_content('4 errors prohibited this form from being saved')
       within 'ul' do
         expect(page).to have_content("First name can't be blank")
         expect(page).to have_content("Last name can't be blank")
         expect(page).to have_content("Email can't be blank")
+        expect(page).to have_content("Password can't be blank")
       end
     end
   end
