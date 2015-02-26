@@ -28,4 +28,13 @@ describe 'User Auth -' do
     end
     expect(page).to have_content('You have successfully signed out')
   end
+
+  scenario 'User must enter first name, last name, email, password, password confirmation' do
+    visit root_path
+    click_on 'Sign Up'
+    within '.well' do
+      click_on 'Sign Up'
+    end
+    expect(page).to have_content("First name can't be blank Last name can't be blank Email can't be blank Password can't be blank")
+  end
 end
