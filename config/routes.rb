@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get 'signup' => 'signup#new', as: :signup
   post '/signup' => 'signup#create'
   get 'signout' => 'auth#destroy', as: :signout
+  get '/signin' => 'auth#new', as: :signin
+  post 'signin' => 'auth#create'
   resources :tasks
   resources :users
   resources :projects
