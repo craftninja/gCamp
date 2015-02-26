@@ -2,6 +2,13 @@
   <div class="col-md-offset-3 col-md-6">
     <div class="well">
       <h3 class="page-header">Sign into gCamp</h3>
+      <% if @user.errors.any? %>
+        <div class="text-danger">
+          <% @user.errors.full_messages.each do |message| %>
+            <h5><%= message %></h5>
+          <% end %>
+        </div>
+      <% end %>
       <%= form_tag signin_path, method: :post do %>
         <div class="form-group">
           <%= label_tag :email, 'Email' %>

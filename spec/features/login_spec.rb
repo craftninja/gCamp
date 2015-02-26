@@ -51,4 +51,12 @@ describe 'User Auth -' do
     end
     expect(page).to have_content("First name can't be blank Last name can't be blank Email can't be blank Password can't be blank")
   end
+
+  scenario 'User must log in with valid credentials' do
+    visit signin_path
+    within '.well' do
+      click_on 'Sign In'
+    end
+    expect(page).to have_content('Email / Password combination is invalid')
+  end
 end
