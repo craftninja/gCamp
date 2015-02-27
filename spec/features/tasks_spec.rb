@@ -2,7 +2,28 @@ require 'rails_helper'
 
 feature 'Tasks -' do
 
+  scenario 'Guests cannot see tasks' do
+    task = create_task
+    visit root_path
+    within 'footer' do
+      expect(page).to_not have_content('Tasks')
+    end
+    visit tasks_path
+    expect(page).to have_content('You must sign in')
+    expect(page).to have_content('Sign into gCamp')
+    visit task_path(task)
+    expect(page).to have_content('You must sign in')
+    expect(page).to have_content('Sign into gCamp')
+    visit new_task_path
+    expect(page).to have_content('You must sign in')
+    expect(page).to have_content('Sign into gCamp')
+    visit edit_task_path(task)
+    expect(page).to have_content('You must sign in')
+    expect(page).to have_content('Sign into gCamp')
+  end
+
   scenario 'User can create tasks and see them listed on index' do
+    login
     visit '/'
     click_on 'Tasks'
     within 'h1' do
@@ -33,6 +54,7 @@ feature 'Tasks -' do
   end
 
   scenario 'User can edit, complete (only on edit form) and delete tasks' do
+    login
     visit tasks_path
     click_on 'New Task'
     fill_in 'Description', with: 'Refactor code'
@@ -57,6 +79,7 @@ feature 'Tasks -' do
   end
 
   scenario 'User must enter task description' do
+    login
     visit tasks_path
     click_on 'New Task'
     click_on 'Create Task'

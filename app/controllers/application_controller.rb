@@ -8,4 +8,11 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.find_by(:id => session[:current_user_id])
   end
 
+  def verify_user
+    if !current_user
+      flash[:error] = 'You must sign in'
+      redirect_to signin_path
+    end
+  end
+
 end

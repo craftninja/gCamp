@@ -2,7 +2,28 @@ require 'rails_helper'
 
 feature 'Users -' do
 
+  scenario 'Guests cannot see users' do
+    user = create_user
+    visit root_path
+    within 'footer' do
+      expect(page).to_not have_content('Users')
+    end
+    visit users_path
+    expect(page).to have_content('You must sign in')
+    expect(page).to have_content('Sign into gCamp')
+    visit user_path(user)
+    expect(page).to have_content('You must sign in')
+    expect(page).to have_content('Sign into gCamp')
+    visit new_user_path
+    expect(page).to have_content('You must sign in')
+    expect(page).to have_content('Sign into gCamp')
+    visit edit_user_path(user)
+    expect(page).to have_content('You must sign in')
+    expect(page).to have_content('Sign into gCamp')
+  end
+
   scenario 'Users can create users, see user show' do
+    login
     fname = 'Luke'
     lname = 'Bartel'
     email = 'luke@example.com'
@@ -32,6 +53,7 @@ feature 'Users -' do
   end
 
   scenario 'Users can update and delete users' do
+    login
     fname = 'Luke'
     lname = 'Bartel'
     password = 'password'
@@ -44,12 +66,15 @@ feature 'Users -' do
     fill_in 'Password', with: password
     fill_in 'Password Confirmation', with: password
     click_on 'Create User'
-    click_on 'Edit'
+    expect(page).to have_content('Edit')
+
+    user = User.find_by(:first_name => fname)
+    visit edit_user_path(user)
     fill_in 'Email', with: "#{lname}@example.com"
     click_on 'Update User'
     expect(page).to have_content("#{lname}@example.com")
     expect(page).to_not have_content("#{fname}@example.com")
-    click_on 'Edit'
+    visit edit_user_path(user)
     within '.well' do
       click_on 'Delete User'
     end
@@ -57,6 +82,7 @@ feature 'Users -' do
   end
 
   scenario 'User must enter first name, last name and email' do
+    login
     visit users_path
     click_on 'New User'
     click_on 'Create User'

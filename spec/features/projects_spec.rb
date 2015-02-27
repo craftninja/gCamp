@@ -2,7 +2,24 @@ require 'rails_helper'
 
 feature 'Projects -' do
 
+  scenario 'Guests cannot see projects' do
+    project = create_project
+    visit root_path
+    within 'footer' do
+      expect(page).to_not have_content('Projects')
+    end
+    visit projects_path
+    expect(page).to have_content('Sign into gCamp')
+    visit project_path(project)
+    expect(page).to have_content('Sign into gCamp')
+    visit new_project_path
+    expect(page).to have_content('Sign into gCamp')
+    visit edit_project_path(project)
+    expect(page).to have_content('Sign into gCamp')
+  end
+
   scenario 'User can create projects, view project show, and see projects listed on index' do
+    login
     visit '/'
     within 'footer' do
       click_on 'Projects'
@@ -28,6 +45,7 @@ feature 'Projects -' do
   end
 
   scenario 'User can edit and delete projects' do
+    login
     visit '/projects'
     click_on 'New Project'
     fill_in 'Name', with: 'Create a sweet web app'
@@ -47,6 +65,7 @@ feature 'Projects -' do
   end
 
   scenario 'User must enter project name' do
+    login
     visit projects_path
     click_on 'New Project'
     click_on 'Create Project'
