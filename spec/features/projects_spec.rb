@@ -86,5 +86,22 @@ feature 'Projects -' do
     end
   end
 
+  scenario 'User can see number of tasks, link to tasks index for each project' do
+    project = create_project
+    login
+    visit projects_path
+    within '.table' do
+      expect(page).to have_link('0')
+    end
+    task = create_task(project)
+    visit projects_path
+    within '.table' do
+      click_on '1'
+    end
+    within '.page-header' do
+      expect(page).to have_content("Tasks for #{project.name}")
+    end
+  end
+
 
 end
