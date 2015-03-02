@@ -45,10 +45,16 @@ feature 'Tasks -' do
     click_on project.name
     click_on '0 Tasks'
     within 'h1' do
-      expect(page).to have_content('Tasks')
+      expect(page).to have_content("Tasks for #{project.name}")
+    end
+    within '.breadcrumb' do
+      expect(page).to have_content("Projects #{project.name} Tasks")
     end
     expect(page).to have_content('Description')
     click_on 'New Task'
+    within '.breadcrumb' do
+      expect(page).to have_content("Projects #{project.name} Tasks New Task")
+    end
     expect(page).to have_content('New Task')
     fill_in 'Description', with: 'Write amazing tests'
     fill_in 'Due date', with: Date.today
@@ -56,6 +62,9 @@ feature 'Tasks -' do
     expect(page).to have_content('Task was successfully created')
     within '.page-header' do
       expect(page).to have_content('Write amazing tests')
+    end
+    within '.breadcrumb' do
+      expect(page).to have_content("Projects #{project.name} Tasks Write amazing tests")
     end
     today = Date.today
     month = today.month
@@ -78,6 +87,9 @@ feature 'Tasks -' do
     expect(page).to_not have_content('Complete')
     click_on 'Create Task'
     click_on 'Edit'
+    within '.breadcrumb' do
+      expect(page).to have_content("Projects #{project.name} Tasks Refactor code Edit")
+    end
     fill_in 'Description', with: 'Refactor tests'
     check 'Complete'
     click_on 'Update Task'

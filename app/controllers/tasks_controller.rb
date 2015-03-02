@@ -3,7 +3,7 @@ class TasksController < ApplicationController
   before_action :set_project
 
   def index
-    @tasks = Task.all
+    @tasks = @project.tasks
   end
 
   def new
