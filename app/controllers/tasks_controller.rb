@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
   before_action :verify_user
+  before_action :set_project
 
   def index
     @tasks = Task.all
@@ -13,7 +14,7 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
     if @task.save
       flash[:success] = 'Task was successfully created'
-      redirect_to task_path(@task)
+      redirect_to project_task_path(@project, @task)
     else
       render :new
     end
@@ -31,7 +32,7 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
     if @task.update(task_params)
       flash[:success] = 'Task was successfully updated'
-      redirect_to task_path(@task)
+      redirect_to project_task_path(@project, @task)
     else
       render :edit
     end
@@ -40,13 +41,17 @@ class TasksController < ApplicationController
   def destroy
     @task = Task.find(params[:id])
     @task.destroy
-    redirect_to tasks_path
+    redirect_to project_tasks_path(@project)
   end
 
   private
 
   def task_params
-    params.require(:task).permit(:description, :completed, :due_date)
+    params.require(:task).permit(:description, :completed, :due_date).merge(:project_id => @project.id)
+  end
+
+  def set_project
+    @project = Project.find(params[:project_id])
   end
 
 end

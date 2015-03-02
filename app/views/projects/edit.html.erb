@@ -1,3 +1,9 @@
 <h1 class='page-header'>Edit Project</h1>
 
+<ol class='breadcrumb'>
+  <li><%= link_to 'Projects', projects_path %></li>
+  <li><%= link_to @project.name, project_path(@project) %></li>
+  <li>Edit</li>
+</ol>
+
 <%= render 'form', form_button: "Update Project" %>

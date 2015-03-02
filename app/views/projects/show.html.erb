@@ -5,3 +5,10 @@
   </div>
   <h1><%= @project.name %></h1>
 </div>
+
+<ol class='breadcrumb'>
+  <li><%= link_to 'Projects', projects_path %></li>
+  <li><%= @project.name %></li>
+</ol>
+
+<%= link_to "#{@project.tasks.count} #{'Task'.pluralize(@project.tasks.count)}", project_tasks_path(@project) %>

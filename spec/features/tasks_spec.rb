@@ -3,29 +3,47 @@ require 'rails_helper'
 feature 'Tasks -' do
 
   scenario 'Guests cannot see tasks' do
-    task = create_task
-    visit root_path
-    within 'footer' do
-      expect(page).to_not have_content('Tasks')
-    end
-    visit tasks_path
+    project = create_project
+    task = create_task(project)
+    visit project_tasks_path(project)
     expect(page).to have_content('You must sign in')
     expect(page).to have_content('Sign into gCamp')
-    visit task_path(task)
+    visit project_task_path(project, task)
     expect(page).to have_content('You must sign in')
     expect(page).to have_content('Sign into gCamp')
-    visit new_task_path
+    visit new_project_task_path(project)
     expect(page).to have_content('You must sign in')
     expect(page).to have_content('Sign into gCamp')
-    visit edit_task_path(task)
+    visit edit_project_task_path(project, task)
     expect(page).to have_content('You must sign in')
     expect(page).to have_content('Sign into gCamp')
   end
 
-  scenario 'User can create tasks and see them listed on index' do
+  scenario 'Tasks are linked from projects with number of tasks assoc with project' do
+    project = create_project
     login
-    visit '/'
-    click_on 'Tasks'
+    within 'footer' do
+      expect(page).to_not have_content('Tasks')
+    end
+    visit project_path(project)
+    expect(page).to have_link('0 Tasks')
+
+    create_task(project)
+    visit project_path(project)
+    expect(page).to have_link('1 Task')
+
+    create_task(project)
+    visit project_path(project)
+    expect(page).to have_link('2 Tasks')
+  end
+
+  scenario 'User can create tasks and see them listed on index' do
+    project = create_project
+    login
+    visit root_path
+    click_on 'Projects'
+    click_on project.name
+    click_on '0 Tasks'
     within 'h1' do
       expect(page).to have_content('Tasks')
     end
@@ -44,9 +62,7 @@ feature 'Tasks -' do
     day = today.day
     year = today.year
     expect(page).to have_content("#{month}/#{day}/#{year}")
-    within 'footer' do
-      click_on 'Tasks'
-    end
+    visit project_tasks_path(project)
 
     expect(page).to have_content("#{month}/#{day}/#{year}")
     click_on 'Write amazing tests'
@@ -54,8 +70,9 @@ feature 'Tasks -' do
   end
 
   scenario 'User can edit, complete (only on edit form) and delete tasks' do
+    project = create_project
     login
-    visit tasks_path
+    visit project_tasks_path(project)
     click_on 'New Task'
     fill_in 'Description', with: 'Refactor code'
     expect(page).to_not have_content('Complete')
@@ -67,9 +84,7 @@ feature 'Tasks -' do
     within 's' do
       expect(page).to have_content('Refactor tests')
     end
-    within 'footer' do
-      click_on 'Tasks'
-    end
+    visit project_tasks_path(project)
     within 's' do
       expect(page).to have_content('Refactor tests')
     end
@@ -79,8 +94,9 @@ feature 'Tasks -' do
   end
 
   scenario 'User must enter task description' do
+    project = create_project
     login
-    visit tasks_path
+    visit project_tasks_path(project)
     click_on 'New Task'
     click_on 'Create Task'
     within '.alert.alert-danger' do

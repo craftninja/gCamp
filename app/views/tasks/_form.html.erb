@@ -1,6 +1,6 @@
 <%= render partial: 'shared/errors', locals: {object: @task} %>
 
-<%= form_for @task, html: {class: 'form-horizontal'} do |f| %>
+<%= form_for [@project, @task], html: {class: 'form-horizontal'} do |f| %>
   <div class='form-group'>
     <%= f.label :description, class: 'col-md-2 control-label' %>
     <div class='col-md-6'>
@@ -27,7 +27,7 @@
   <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
       <%= f.submit form_button, class: 'btn btn-primary' %>
-      <%= link_to "Cancel", tasks_path, class: 'btn btn-default' %>
+      <%= link_to "Cancel", project_tasks_path(@project), class: 'btn btn-default' %>
     </div>
   </div>
 <% end %>

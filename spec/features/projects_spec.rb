@@ -35,9 +35,12 @@ feature 'Projects -' do
       expect(page).to have_content('Create a sweet web app')
     end
     expect(page).to have_content('Project was successful created')
+    within '.breadcrumb' do
+      expect(page).to have_content('Projects Create a sweet web app')
+    end
     expect(page).to have_link('Edit')
     expect(page).to have_link('Delete')
-    click_on 'Projects'
+    visit projects_path
     click_on 'Create a sweet web app'
     within '.page-header' do
       expect(page).to have_content('Create a sweet web app')
@@ -48,9 +51,15 @@ feature 'Projects -' do
     login
     visit '/projects'
     click_on 'New Project'
+    within '.breadcrumb' do
+      expect(page).to have_content('Projects New Project')
+    end
     fill_in 'Name', with: 'Create a sweet web app'
     click_on 'Create Project'
     click_on 'Edit'
+    within '.breadcrumb' do
+      expect(page).to have_content('Projects Create a sweet web app Edit')
+    end
     fill_in 'Name', with: 'Create an awesome web app'
     click_on 'Update Project'
     expect(page).to_not have_content('Create a sweet web app')

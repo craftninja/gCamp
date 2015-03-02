@@ -13,8 +13,9 @@ def create_user(options = {})
   }.merge(options))
 end
 
-def create_task(options = {})
+def create_task(project = create_project, options = {})
   Task.create!({
+    :project_id => project.id,
     :description => "Do the thing #{rand(100..999)}",
     :completed => false,
     :due_date => Date.today + rand(10..20)

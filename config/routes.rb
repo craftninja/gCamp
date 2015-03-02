@@ -9,8 +9,9 @@ Rails.application.routes.draw do
   get 'signout' => 'auth#destroy', as: :signout
   get '/signin' => 'auth#new', as: :signin
   post 'signin' => 'auth#create'
-  resources :tasks
   resources :users
-  resources :projects
+  resources :projects do
+    resources :tasks
+  end
 
 end
