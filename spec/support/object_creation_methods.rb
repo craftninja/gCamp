@@ -21,3 +21,11 @@ def create_task(project = create_project, options = {})
     :due_date => Date.today + rand(10..20)
   }.merge(options))
 end
+
+def create_membership(project = create_project, user = create_user, options = {})
+  Membership.create!({
+    :project_id => project.id,
+    :user_id => user.id,
+    :role => :member
+  }.merge(options))
+end
