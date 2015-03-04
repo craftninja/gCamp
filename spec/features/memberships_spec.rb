@@ -34,4 +34,12 @@ feature 'Memberships -' do
     end
   end
 
+  scenario 'User must select a user for a membership' do
+    project = create_project
+    login
+    visit project_memberships_path(project)
+    click_on 'Add New Member'
+    expect(page).to have_content("1 error prohibited this form from being saved: User can't be blank")
+  end
+
 end
