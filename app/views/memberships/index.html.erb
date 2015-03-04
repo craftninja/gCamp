@@ -1,1 +1,52 @@
 <h1 class='page-header'><%= @project.name %>: Manage Members</h1>
+
+<ol class='breadcrumb'>
+  <li><%= link_to 'Projects', projects_path %></li>
+  <li><%= link_to @project.name, project_path(@project) %></li>
+  <li>Memberships</li>
+</ol>
+
+<% if @membership.errors.any? %>
+  <div class="row">
+    <div class="col-md-7">
+      <div class="alert alert-danger">
+        <h3><%= pluralize(@membership.errors.count, "error") %> prohibited this form from being saved:</h2>
+        <ul>
+        <% @membership.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="col-md-7">
+    <div class="well">
+      <%= form_for [@project, @membership], html: {class: 'form-inline'} do |f| %>
+        <div class="form-group">
+          <%= f.collection_select(:user_id, User.all, :id, :full_name, {prompt: 'Please select a user...'}, {class: 'form-control'}) %>
+        </div>
+        <div class="form-group">
+          <%= f.select(:role, [['Member', :member], ['Owner', :owner]], {}, {class: 'form-control'})  %>
+        </div>
+        <%= f.submit 'Add New Member', class: 'btn btn-primary' %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-7">
+    <table class='table'>
+      <% @project.memberships.each do |membership| %>
+        <% if membership.id %>
+          <tr>
+            <%= link_to membership.user.full_name, user_path(membership.user) %>
+          </tr>
+        <% end %>
+      <% end %>
+    </table>
+  </div>
+</div>
