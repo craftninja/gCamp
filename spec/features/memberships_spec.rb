@@ -18,7 +18,7 @@ feature 'Memberships -' do
     expect(page).to have_content('1 Member')
   end
 
-  scenario 'User can add a member to a project' do
+  scenario 'User can add a member to a project, update role' do
     user = create_user
     project = create_project
     login(user)
@@ -32,6 +32,11 @@ feature 'Memberships -' do
     within 'table' do
       expect(page).to have_link(user.full_name)
     end
+    within '.table' do
+      select 'Owner', from: :membership_role
+    end
+    click_on 'Update'
+    expect(page).to have_content("#{user.full_name} was successfully updated")
   end
 
   scenario 'User must select a user for a membership' do
