@@ -18,7 +18,7 @@ feature 'Memberships -' do
     expect(page).to have_content('1 Member')
   end
 
-  scenario 'User can add a member to a project, update role' do
+  scenario 'User can add a member to a project, update role, delete membership' do
     user = create_user
     project = create_project
     login(user)
@@ -37,6 +37,8 @@ feature 'Memberships -' do
     end
     click_on 'Update'
     expect(page).to have_content("#{user.full_name} was successfully updated")
+    first('.glyphicon').click
+    expect(page).to have_content("#{user.full_name} was successfully removed")
   end
 
   scenario 'User must select a user for a membership' do

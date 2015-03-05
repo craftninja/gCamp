@@ -26,6 +26,13 @@ class MembershipsController < ApplicationController
     end
   end
 
+  def destroy
+    @membership = Membership.find(params[:id])
+    @membership.destroy
+    flash[:notice] = "#{@membership.user.full_name} was successfully removed"
+    redirect_to project_memberships_path(@project)
+  end
+
   private
 
   def membership_params
