@@ -116,5 +116,39 @@ feature 'Projects -' do
     end
   end
 
+  scenario 'Project associated memberships, tasks and comments deleted upon project delete' do
+    9.times do
+      create_user
+    end
+
+    3.times do
+      project = create_project
+      2.times do
+        task = create_task(project)
+        3.times do
+          create_comment(task, User.all.sample)
+        end
+      end
+      users = User.all.map {|user| user}
+      4.times do
+        create_membership(project, users.delete(users.sample))
+      end
+    end
+
+    project = Project.first
+
+    visit about_path
+    within '.col-md-12' do
+      expect(page).to have_content('gCamp is extremely active. Check out our killer stats below!')
+      expect(page).to have_content('3 Projects, 6 Tasks, 12 Project Members, 9 Users, 18 Comments')
+    end
+
+    project.destroy
+    visit about_path
+    within '.col-md-12' do
+      expect(page).to have_content('gCamp is extremely active. Check out our killer stats below!')
+      expect(page).to have_content('2 Projects, 4 Tasks, 8 Project Members, 9 Users, 12 Comments')
+    end
+  end
 
 end

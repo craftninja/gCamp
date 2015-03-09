@@ -14,26 +14,8 @@ describe 'Welcome pages -' do
     expect(page).to have_content(quotes)
   end
 
-  scenario 'User can see the about page, stats for site' do
+  scenario 'User can see the about page' do
     copy = "We are dedicated to the makers, the creators, the risk-takers. We wake up in the middle of the night and furiously write down ideas about how to make your online life better. Human collaboration and communication is what drives us, and it infuses every feature of gCamp."
-
-    9.times do
-      create_user
-    end
-
-    3.times do
-      project = create_project
-      2.times do
-        task = create_task(project)
-        3.times do
-          create_comment(task, User.all.sample)
-        end
-      end
-      users = User.all.map {|user| user}
-      4.times do
-        create_membership(project, users.delete(users.sample))
-      end
-    end
 
     visit '/'
     click_on 'About'
@@ -42,10 +24,6 @@ describe 'Welcome pages -' do
     end
     within '.col-md-8' do
       expect(page).to have_content(copy)
-    end
-    within '.col-md-12' do
-      expect(page).to have_content('gCamp is extremely active. Check out our killer stats below!')
-      expect(page).to have_content('3 Projects, 6 Tasks, 12 Project Members, 9 Users, 18 Comments')
     end
   end
 
