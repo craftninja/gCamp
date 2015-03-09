@@ -101,7 +101,7 @@ feature 'Tasks -' do
       expect(page).to have_content('Refactor tests')
     end
     expect(page).to have_content('Edit')
-    click_on 'Delete'
+    find('.glyphicon-remove').click
     expect(page).to_not have_content('Refactor tests')
   end
 
