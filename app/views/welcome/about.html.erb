@@ -16,3 +16,14 @@
     </p>
   </div>
 </div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h4>
+      gCamp is extremely active. Check out our killer stats below!
+    </h4>
+    <h4>
+      <%= "#{Project.all.size} #{'Project'.pluralize(Project.all.size)}, #{Task.all.size} #{'Task'.pluralize(Task.all.size)}, #{Membership.all.size} #{'Project Members'.pluralize(Membership.all.size)}, #{User.all.size} #{'User'.pluralize(User.all.size)}, #{Comment.all.size} #{'Comment'.pluralize(Comment.all.size)}" %>
+    </h4>
+  </div>
+</div>
