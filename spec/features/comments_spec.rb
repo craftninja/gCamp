@@ -21,4 +21,20 @@ feature 'Comments -' do
     end
     expect(page).to have_content(comment)
   end
+
+  scenario 'User can see number of comments associated with each task' do
+    user = create_user
+    login(user)
+    project = create_project
+    task = create_task(project)
+    9.times do
+      create_comment(task, user)
+    end
+
+    visit project_tasks_path(project)
+
+    within '.badge' do
+      expect(page).to have_content('9')
+    end
+  end
 end

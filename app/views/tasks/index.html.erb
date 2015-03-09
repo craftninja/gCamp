@@ -28,9 +28,9 @@
         <td>
           <div>
             <% if task.completed %>
-              <s><%= link_to task.description, project_task_path(@project, task) %></s>
+              <s><%= link_to task.description, project_task_path(@project, task) %> <span class="badge"><%= task.comments.size %></span></s>
             <% else %>
-              <%= link_to task.description, project_task_path(@project, task) %>
+              <%= link_to task.description, project_task_path(@project, task) %> <span class="badge"><%= task.comments.size %></span>
             <% end %>
           </div>
         </td>

@@ -29,3 +29,11 @@ def create_membership(project = create_project, user = create_user, options = {}
     :role => :member
   }.merge(options))
 end
+
+def create_comment(task = create_task, user = create_user, options = {})
+  Comment.create!({
+    :content => "#{task.description} comment #{rand(100..999)}",
+    :task_id => task.id,
+    :user_id => user.id,
+  }.merge(options))
+end
