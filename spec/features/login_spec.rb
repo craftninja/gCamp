@@ -41,6 +41,9 @@ describe 'User Auth -' do
     end
     expect(page).to have_content('You have successfully signed in')
     expect(page).to have_content("#{first_name} #{last_name}")
+    within '.page-header' do
+      expect(page).to have_content('Projects')
+    end
   end
 
   scenario 'User must enter first name, last name, email, password, password confirmation' do

@@ -15,7 +15,7 @@ class AuthController < PublicController
     if @user && @user.authenticate(params[:password])
       session[:current_user_id] = @user.id
       flash[:notice] = 'You have successfully signed in'
-      redirect_to root_path
+      redirect_to projects_path
     else
       @user = User.new
       @user.errors[:email] << ' / Password combination is invalid'
