@@ -37,4 +37,17 @@ feature 'Comments -' do
       expect(page).to have_content('9')
     end
   end
+
+  scenario 'When user is deleted, their comments author is (deleted user)' do
+    commenter = create_user
+    project = create_project
+    task = create_task(project)
+    comment = create_comment(task, commenter)
+    commenter.destroy
+
+    user = create_user
+    login(user)
+    visit project_task_path(project, task)
+    expect(page).to have_content('(deleted user)')
+  end
 end
