@@ -26,8 +26,8 @@ feature 'Projects -' do
     end
     within '.page-header' do
       expect(page).to have_content('Projects')
+      click_on 'New Project'
     end
-    click_on 'New Project'
     fill_in 'Name', with: 'Create a sweet web app'
     expect(page).to have_link('Cancel')
     click_on 'Create Project'
@@ -50,7 +50,9 @@ feature 'Projects -' do
   scenario 'User can edit and delete projects' do
     login
     visit '/projects'
-    click_on 'New Project'
+    within '.page-header' do
+      click_on 'New Project'
+    end
     within '.breadcrumb' do
       expect(page).to have_content('Projects New Project')
     end
@@ -89,7 +91,9 @@ feature 'Projects -' do
   scenario 'User must enter project name' do
     login
     visit projects_path
-    click_on 'New Project'
+    within '.page-header' do
+      click_on 'New Project'
+    end
     click_on 'Create Project'
     within '.alert.alert-danger' do
       expect(page).to have_content('1 error prohibited this form from being saved')

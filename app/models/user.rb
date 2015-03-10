@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email
   before_destroy :destroy_assoc_memberships
   before_destroy :comments_user_id_nil
+  has_many :projects, through: :memberships
+  has_many :memberships
   has_secure_password
 
 

@@ -1,4 +1,4 @@
-class AuthController < ApplicationController
+class AuthController < PublicController
 
   def destroy
     session.destroy

@@ -1,4 +1,4 @@
-class SignupController < ApplicationController
+class SignupController < PublicController
 
   def new
     @user = User.new
