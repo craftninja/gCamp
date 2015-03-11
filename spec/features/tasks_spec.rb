@@ -20,8 +20,10 @@ feature 'Tasks -' do
   end
 
   scenario 'Tasks are linked from projects with number of tasks assoc with project' do
+    user = create_user
     project = create_project
-    login
+    create_membership(project, user)
+    login(user)
     within 'footer' do
       expect(page).to_not have_content('Tasks')
     end
@@ -38,11 +40,16 @@ feature 'Tasks -' do
   end
 
   scenario 'User can create tasks and see them listed on index' do
+    user = create_user
     project = create_project
-    login
+    create_membership(project, user)
+
+    login(user)
     visit root_path
     click_on 'Projects'
-    click_on project.name
+    within 'table' do
+      click_on project.name
+    end
     click_on '0 Tasks'
     within 'h1' do
       expect(page).to have_content("Tasks for #{project.name}")

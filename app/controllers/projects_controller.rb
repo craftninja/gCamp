@@ -1,8 +1,10 @@
 class ProjectsController < ApplicationController
   before_action :verify_user
+  before_action :set_project, except: [:index, :new, :create]
+  before_action :verify_membership, except: [:index, :new, :create]
 
   def index
-    @projects = Project.all
+    @projects = current_user.projects
   end
 
   def new
@@ -25,15 +27,12 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @project = Project.find(params[:id])
   end
 
   def edit
-    @project = Project.find(params[:id])
   end
 
   def update
-    @project = Project.find(params[:id])
     if @project.update(project_params)
       flash[:success] = 'Project was successfully updated'
       redirect_to project_path(@project)
@@ -43,7 +42,6 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    @project = Project.find(params[:id])
     @project.destroy
     flash[:success] = 'Project was successfully deleted'
     redirect_to projects_path
@@ -53,6 +51,10 @@ class ProjectsController < ApplicationController
 
   def project_params
     params.require(:project).permit(:name)
+  end
+
+  def set_project
+    @project = Project.find(params[:id])
   end
 
 end

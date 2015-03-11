@@ -18,6 +18,15 @@ feature 'Projects -' do
     expect(page).to have_content('Sign into gCamp')
   end
 
+  scenario 'Non-members cannot access projects' do
+    project = create_project
+
+    login
+    visit project_path(project)
+    expect(page).to have_content("You do not have access to that project")
+    expect(current_path).to eq(projects_path)
+  end
+
   scenario 'User can create projects, view project show, and see projects listed on index' do
     login
     visit '/'
@@ -94,6 +103,21 @@ feature 'Projects -' do
     expect(page).to have_content('Project was successfully deleted')
   end
 
+  scenario 'Users can only see projects they are members of' do
+    user = create_user
+    my_project = create_project
+    create_membership(my_project, user)
+
+    other_user = create_user
+    other_project = create_project
+    create_membership(other_project, other_user)
+
+    login(user)
+    visit projects_path
+    expect(page).to have_content(my_project.name)
+    expect(page).to_not have_content(other_project.name)
+  end
+
   scenario 'User must enter project name' do
     login
     visit projects_path
@@ -110,8 +134,11 @@ feature 'Projects -' do
   end
 
   scenario 'User can see number of tasks, link to tasks index for each project' do
+    user = create_user
     project = create_project
-    login
+    create_membership(project, user)
+
+    login(user)
     visit projects_path
     within '.table' do
       expect(page).to have_link('0')

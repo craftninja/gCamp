@@ -15,4 +15,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def verify_membership
+    if !current_user.member?(@project)
+      flash[:error] = 'You do not have access to that project'
+      redirect_to projects_path
+    end
+  end
+
 end

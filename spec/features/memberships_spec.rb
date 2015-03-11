@@ -4,18 +4,21 @@ feature 'Memberships -' do
   scenario 'The project show has membership count link to projects memberships index' do
     user = create_user
     project = create_project
+    create_membership(project, user)
+
     login(user)
     visit project_path(project)
-    click_on '0 Members'
+    click_on '1 Member'
     within '.page-header' do
       expect(page).to have_content("#{project.name}: Manage Members")
     end
     within '.breadcrumb' do
       expect(page).to have_content("Projects #{project.name} Memberships")
     end
-    membership = create_membership(project, user)
+    other_user = create_user
+    membership = create_membership(project, other_user)
     visit project_path(project)
-    expect(page).to have_content('1 Member')
+    expect(page).to have_content('2 Memberships')
   end
 
   scenario 'User can add a member to a project, update role, delete membership' do
