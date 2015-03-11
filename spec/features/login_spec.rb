@@ -23,6 +23,9 @@ describe 'User Auth -' do
       expect(page).to_not have_content('Sign Up')
     end
     expect(page).to have_content('You have successfully signed up')
+    within '.page-header' do
+      expect(page).to have_content('New Project')
+    end
     within '.navbar' do
       click_on 'Sign Out'
     end
