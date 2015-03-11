@@ -32,11 +32,12 @@ feature 'Projects -' do
     expect(page).to have_link('Cancel')
     click_on 'Create Project'
     within '.page-header' do
-      expect(page).to have_content('Create a sweet web app')
+      expect(page).to have_content('Tasks for Create a sweet web app')
     end
     expect(page).to have_content('Project was successful created')
     within '.breadcrumb' do
-      expect(page).to have_content('Projects Create a sweet web app')
+      expect(page).to have_content('Projects Create a sweet web app Tasks')
+      click_on 'Create a sweet web app'
     end
     expect(page).to have_content('1 Membership')
     expect(page).to have_link('Edit')
@@ -61,11 +62,13 @@ feature 'Projects -' do
     end
     fill_in 'Name', with: 'Create a sweet web app'
     click_on 'Create Project'
+
+    project = Project.find_by(:name => 'Create a sweet web app')
+    visit project_path(project)
     within '.well' do
       expect(page).to have_content('Deleting this project will also delete 1 membership, 0 tasks and associated comments')
     end
 
-    project = Project.find_by(:name => 'Create a sweet web app')
     3.times do
       create_membership(project)
     end
