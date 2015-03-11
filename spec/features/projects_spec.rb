@@ -38,10 +38,13 @@ feature 'Projects -' do
     within '.breadcrumb' do
       expect(page).to have_content('Projects Create a sweet web app')
     end
+    expect(page).to have_content('1 Membership')
     expect(page).to have_link('Edit')
     expect(page).to have_link('Delete')
     visit projects_path
-    click_on 'Create a sweet web app'
+    within 'table' do
+      click_on 'Create a sweet web app'
+    end
     within '.page-header' do
       expect(page).to have_content('Create a sweet web app')
     end
@@ -59,7 +62,7 @@ feature 'Projects -' do
     fill_in 'Name', with: 'Create a sweet web app'
     click_on 'Create Project'
     within '.well' do
-      expect(page).to have_content('Deleting this project will also delete 0 memberships, 0 tasks and associated comments')
+      expect(page).to have_content('Deleting this project will also delete 1 membership, 0 tasks and associated comments')
     end
 
     project = Project.find_by(:name => 'Create a sweet web app')
@@ -78,7 +81,7 @@ feature 'Projects -' do
     expect(page).to have_content('Create an awesome web app')
     expect(page).to have_content('Project was successfully updated')
     within '.well' do
-      expect(page).to have_content('Deleting this project will also delete 3 memberships, 1 task and associated comments')
+      expect(page).to have_content('Deleting this project will also delete 4 memberships, 1 task and associated comments')
       click_on 'Delete'
     end
     within '.page-header' do
