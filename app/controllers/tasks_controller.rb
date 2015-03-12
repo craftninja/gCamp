@@ -1,6 +1,6 @@
 class TasksController < ApplicationController
   before_action :verify_user
-  before_action :set_project
+  before_action :set_project, :verify_membership
 
   def index
     @tasks = @project.tasks

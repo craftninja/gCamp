@@ -19,6 +19,23 @@ feature 'Tasks -' do
     expect(page).to have_content('Sign into gCamp')
   end
 
+  scenario "Non-members of the task's project cannot manage tasks" do
+    member = create_user
+    project = create_project
+    create_membership(project, member)
+    task = create_task(project)
+    non_member = create_user
+    login(non_member)
+
+    visit project_tasks_path(project)
+    expect(page).to have_content("You do not have access to that project")
+    expect(current_path).to eq(projects_path)
+
+    visit project_task_path(project, task)
+    expect(page).to have_content("You do not have access to that project")
+    expect(current_path).to eq(projects_path)
+  end
+
   scenario 'Tasks are linked from projects with number of tasks assoc with project' do
     user = create_user
     project = create_project
@@ -86,8 +103,10 @@ feature 'Tasks -' do
   end
 
   scenario 'User can edit, complete (only on edit form) and delete tasks' do
+    user = create_user
     project = create_project
-    login
+    create_membership(project, user)
+    login(user)
     visit project_tasks_path(project)
     click_on 'New Task'
     fill_in 'Description', with: 'Refactor code'
@@ -113,8 +132,10 @@ feature 'Tasks -' do
   end
 
   scenario 'User must enter task description' do
+    user = create_user
     project = create_project
-    login
+    create_membership(project, user)
+    login(user)
     visit project_tasks_path(project)
     click_on 'New Task'
     click_on 'Create Task'
