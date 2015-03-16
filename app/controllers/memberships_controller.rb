@@ -1,6 +1,7 @@
 class MembershipsController < ApplicationController
   before_action :verify_user
   before_action :set_project
+  before_action :verify_owner, except: [:index]
 
   def index
     @membership = Membership.new

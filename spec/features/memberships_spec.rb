@@ -21,10 +21,25 @@ feature 'Memberships -' do
     expect(page).to have_content('2 Memberships')
   end
 
-  scenario 'User can add a member to a project, update role, delete membership' do
-    user = create_user
+  scenario 'Members cannot manage memberships' do
+    member = create_user
     project = create_project
-    login(user)
+    create_membership(project, member, :role => :member)
+    login(member)
+
+    visit project_memberships_path(project)
+    expect(page).to_not have_content('Please select a user...')
+    expect(page).to_not have_button('Update')
+    expect(page).to_not have_content('.glyphicon-remove')
+  end
+
+  scenario 'Owner can add a member to a project, update role, delete membership' do
+    owner = create_user
+    project = create_project
+    create_membership(project, owner, :role => :owner)
+    user = create_user
+
+    login(owner)
     visit project_memberships_path(project)
     within '.well' do
       select user.full_name, from: :membership_user_id
@@ -36,26 +51,30 @@ feature 'Memberships -' do
       expect(page).to have_link(user.full_name)
     end
     within '.table' do
-      select 'Owner', from: :membership_role
+      all('#membership_role')[1].select 'Owner'
+      all('.btn')[1].click
     end
-    click_on 'Update'
     expect(page).to have_content("#{user.full_name} was successfully updated")
-    first('.glyphicon').click
+    all('.glyphicon')[1].click
     expect(page).to have_content("#{user.full_name} was successfully removed")
   end
 
-  scenario 'User must select a user for a membership' do
+  scenario 'Owner must select a user for a membership' do
+    owner = create_user
     project = create_project
-    login
+    create_membership(project, owner, :role => :owner)
+    login(owner)
     visit project_memberships_path(project)
     click_on 'Add New Member'
     expect(page).to have_content("1 error prohibited this form from being saved: User can't be blank")
   end
 
-  scenario 'User cannot add the same user twice as member of project' do
-    user = create_user
+  scenario 'Owner cannot add the same user twice as member of project' do
+    owner = create_user
     project = create_project
-    login(user)
+    create_membership(project, owner, :role => :owner)
+    login(owner)
+    user = create_user
     visit project_memberships_path(project)
     within '.well' do
       select user.full_name, from: :membership_user_id
