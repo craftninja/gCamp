@@ -21,16 +21,23 @@ feature 'Memberships -' do
     expect(page).to have_content('2 Memberships')
   end
 
-  scenario 'Members cannot manage memberships' do
+  scenario 'Members cannot manage memberships, but can delete self membership' do
     member = create_user
     project = create_project
+    another_member = create_user
     create_membership(project, member, :role => :member)
+    create_membership(project, another_member, :role => :member)
     login(member)
 
     visit project_memberships_path(project)
     expect(page).to_not have_content('Please select a user...')
     expect(page).to_not have_button('Update')
-    expect(page).to_not have_content('.glyphicon-remove')
+    expect(all('tr')[0]).to have_content(member.full_name)
+    expect(all('tr')[0]).to have_css('.glyphicon-remove')
+    all('.glyphicon-remove')[0].click
+    expect(page).to have_content("#{member.full_name} was successfully removed")
+    expect(current_path).to eq(projects_path)
+    expect(Membership.find_by(:user_id => member.id)).to eq(nil)
   end
 
   scenario 'Owner can add a member to a project, update role, delete membership' do
