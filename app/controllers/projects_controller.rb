@@ -2,6 +2,7 @@ class ProjectsController < ApplicationController
   before_action :verify_user
   before_action :set_project, except: [:index, :new, :create]
   before_action :verify_membership, except: [:index, :new, :create]
+  before_action :verify_owner, only: [:edit, :update, :destroy]
 
   def index
     @projects = current_user.projects

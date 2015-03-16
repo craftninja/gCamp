@@ -27,6 +27,19 @@ feature 'Projects -' do
     expect(current_path).to eq(projects_path)
   end
 
+  scenario 'Members cannot edit, update or delete projects' do
+    member = create_user
+    project = create_project
+    create_membership(project, member, :role => :member)
+    login(member)
+    visit project_path(project)
+    expect(page).to_not have_content('Edit')
+    expect(page).to_not have_content('Delete')
+    visit edit_project_path(project)
+    expect(current_path).to eq(project_path(project))
+    expect(page).to have_content('You do not have access')
+  end
+
   scenario 'User can create projects, view project show, and see projects listed on index' do
     login
     visit '/'
@@ -60,7 +73,7 @@ feature 'Projects -' do
     end
   end
 
-  scenario 'User can edit and delete projects' do
+  scenario 'Owners can edit and delete projects' do
     login
     visit '/projects'
     within '.page-header' do

@@ -22,4 +22,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def verify_owner
+    if !current_user.owner?(@project)
+      flash[:error] = 'You do not have access'
+      redirect_to project_path(@project)
+    end
+  end
+
 end
