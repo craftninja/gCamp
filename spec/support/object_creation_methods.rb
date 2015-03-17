@@ -9,7 +9,8 @@ def create_user(options = {})
     :first_name => "Some #{rand(100..999)}",
     :last_name => "Person #{rand(100..999)}",
     :email => "person#{rand(1000..9999)}@example.com",
-    :password => "#{rand(100..999)}"
+    :password => "#{rand(100..999)}",
+    :admin => false
   }.merge(options))
 end
 
