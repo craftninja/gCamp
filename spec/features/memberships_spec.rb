@@ -40,7 +40,7 @@ feature 'Memberships -' do
     expect(Membership.find_by(:user_id => member.id)).to eq(nil)
   end
 
-  scenario 'Owner can add a member to a project, update role, delete membership' do
+  scenario 'Owner can add member, update role, delete member but not delete/update last owner' do
     owner = create_user
     project = create_project
     create_membership(project, owner, :role => :owner)
@@ -50,7 +50,7 @@ feature 'Memberships -' do
     visit project_memberships_path(project)
     within '.well' do
       select user.full_name, from: :membership_user_id
-      select 'Member', from: :membership_role
+      select 'Owner', from: :membership_role
     end
     click_on 'Add New Member'
     expect(page).to have_content("#{user.full_name} was successfully added")
@@ -58,12 +58,19 @@ feature 'Memberships -' do
       expect(page).to have_link(user.full_name)
     end
     within '.table' do
-      all('#membership_role')[1].select 'Owner'
+      all('#membership_role')[1].select 'Member'
       all('.btn')[1].click
     end
     expect(page).to have_content("#{user.full_name} was successfully updated")
-    all('.glyphicon')[1].click
+    first('.glyphicon-remove').click
     expect(page).to have_content("#{user.full_name} was successfully removed")
+    expect(page).to_not have_css('.glyphicon-remove')
+    expect(page).to have_content('You are the last owner')
+    within '.table' do
+      select 'Member', from: :membership_role
+      click_on 'Update'
+    end
+    expect(page).to have_content('Projects must have at least one owner')
   end
 
   scenario 'Owner must select a user for a membership' do

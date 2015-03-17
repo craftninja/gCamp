@@ -4,6 +4,7 @@ class MembershipsController < ApplicationController
   before_action :set_membership, only: [:update, :destroy]
   before_action :verify_owner, only: [:create, :update]
   before_action :verify_self_or_owner, only: [:destroy]
+  before_action :verify_other_owners, only: [:update, :destroy]
 
   def index
     @membership = Membership.new
@@ -50,6 +51,13 @@ class MembershipsController < ApplicationController
 
   def set_membership
     @membership = Membership.find(params[:id])
+  end
+
+  def verify_other_owners
+    if @membership.role == 'owner' && @project.memberships.where(:role => 1).length <= 1
+      flash[:error] = 'Projects must have at least one owner'
+      redirect_to project_memberships_path(@project)
+    end
   end
 
 end
