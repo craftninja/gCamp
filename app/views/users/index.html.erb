@@ -27,7 +27,7 @@
       </td>
       <td>
         <div class="text-right">
-          <%= link_to 'Edit', edit_user_path(user) %>
+          <%= link_to 'Edit', edit_user_path(user) if user == current_user%>
         </div>
       </td>
     </tr>

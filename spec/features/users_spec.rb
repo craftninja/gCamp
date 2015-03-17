@@ -22,6 +22,20 @@ feature 'Users -' do
     expect(page).to have_content('Sign into gCamp')
   end
 
+  scenario 'Users cannot edit other users' do
+    user = create_user
+    other_user = create_user
+
+    login(user)
+
+    visit users_path
+    expect(page).to have_content('Edit', count: 1)
+    click_on other_user.full_name
+    expect(page).to_not have_content('Edit')
+    visit edit_user_path(other_user)
+    expect(page).to have_content("The page you were looking for doesn't exist")
+  end
+
   scenario 'Users can create users, see user show' do
     login
     fname = 'Luke'
@@ -49,36 +63,22 @@ feature 'Users -' do
       expect(page).to have_content("#{fname} #{lname}")
     end
     expect(page).to have_link(email)
-    expect(page).to have_link('Edit')
   end
 
-  scenario 'Users can update and delete users' do
-    login
+  scenario 'Users can update self' do
+    user = create_user
+    login(user)
     fname = 'Luke'
     lname = 'Bartel'
     password = 'password'
 
-    visit '/users'
-    click_on 'New User'
+    visit edit_user_path(user)
     fill_in 'First Name', with: fname
     fill_in 'Last Name', with: lname
-    fill_in 'Email', with: "#{fname}@example.com"
-    fill_in 'Password', with: password
-    fill_in 'Password Confirmation', with: password
-    click_on 'Create User'
-    expect(page).to have_content('Edit')
-
-    user = User.find_by(:first_name => fname)
-    visit edit_user_path(user)
     fill_in 'Email', with: "#{lname}@example.com"
     click_on 'Update User'
+    expect(page).to have_content("#{fname} #{lname}")
     expect(page).to have_content("#{lname}@example.com")
-    expect(page).to_not have_content("#{fname}@example.com")
-    visit edit_user_path(user)
-    within '.well' do
-      click_on 'Delete User'
-    end
-    expect(page).to have_content('User was successfully deleted')
   end
 
   scenario 'User must enter first name, last name and email' do
