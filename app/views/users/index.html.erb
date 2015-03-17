@@ -23,11 +23,11 @@
         <%= link_to user.full_name, user_path(user) %>
       </td>
       <td>
-        <%= mail_to user.email if user == current_user %>
+        <%= mail_to user.email if current_user_or_admin(user) %>
       </td>
       <td>
         <div class="text-right">
-          <%= link_to 'Edit', edit_user_path(user) if user == current_user%>
+          <%= link_to 'Edit', edit_user_path(user) if current_user_or_admin(user) %>
         </div>
       </td>
     </tr>

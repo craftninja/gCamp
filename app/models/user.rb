@@ -27,8 +27,8 @@ class User < ActiveRecord::Base
     self.memberships.find_by(:project_id => project.id) != nil
   end
 
-  def owner?(project)
-    self.memberships.find_by(:project_id => project.id).role == 'owner'
+  def owner_or_admin?(project)
+    self.admin || self.memberships.find_by(:project_id => project.id).role == 'owner'
   end
 
 end

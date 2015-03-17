@@ -56,7 +56,7 @@ class UsersController < ApplicationController
   end
 
   def verify_auth_to_edit
-    if current_user != @user
+    if !current_user_or_admin(@user)
       render file: 'public/404.html', status: :not_found, layout: false
     end
   end

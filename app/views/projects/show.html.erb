@@ -1,5 +1,5 @@
 <div class="page-header">
-  <% if current_user.owner?(@project) %>
+  <% if current_user.owner_or_admin?(@project) %>
     <div class="pull-right">
       <%= link_to 'Edit', edit_project_path(@project), class: 'btn btn-info' %>
     </div>
@@ -19,7 +19,7 @@
   <%= link_to "#{@project.memberships.count} #{'Memberships'.pluralize(@project.memberships.count)}", project_memberships_path(@project) %>
 </p>
 
-<% if current_user.owner?(@project) %>
+<% if current_user.owner_or_admin?(@project) %>
   <div class="row">
     <div class="col-md-12">
       <div class="well">
