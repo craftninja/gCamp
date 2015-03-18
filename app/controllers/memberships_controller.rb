@@ -1,5 +1,4 @@
 class MembershipsController < ApplicationController
-  before_action :verify_user
   before_action :set_project
   before_action :set_membership, only: [:update, :destroy]
   before_action :verify_owner_or_admin, only: [:create, :update]

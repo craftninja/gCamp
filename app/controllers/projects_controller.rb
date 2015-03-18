@@ -1,5 +1,4 @@
 class ProjectsController < ApplicationController
-  before_action :verify_user
   before_action :set_project, except: [:index, :new, :create]
   before_action :verify_membership_or_admin, except: [:index, :new, :create]
   before_action :verify_owner_or_admin, only: [:edit, :update, :destroy]

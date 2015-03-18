@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  before_action :verify_user
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :verify_auth_to_edit, only: [:edit, :update, :destroy]
 

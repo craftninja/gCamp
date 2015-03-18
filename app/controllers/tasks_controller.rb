@@ -1,5 +1,4 @@
 class TasksController < ApplicationController
-  before_action :verify_user
   before_action :set_project, :verify_membership_or_admin
 
   def index

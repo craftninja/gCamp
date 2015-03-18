@@ -1,5 +1,4 @@
 class CommentsController < ApplicationController
-  before_action :verify_user
 
   def create
     task = Task.find(params[:task_id])
