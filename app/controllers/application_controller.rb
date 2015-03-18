@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
 
   def verify_user
     if !current_user
+      session[:request_path] = request.env['PATH_INFO']
       flash[:error] = 'You must sign in'
       redirect_to signin_path
     end

@@ -49,6 +49,23 @@ describe 'User Auth -' do
     end
   end
 
+  scenario 'Users are redirected to the page they tryed to access after login' do
+    project = create_project
+    password = 'password'
+    user = create_user(:password => password)
+    membership = create_membership(project, user)
+
+    visit project_path(project)
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: password
+    within '.well' do
+      click_on 'Sign In'
+    end
+    within '.page-header' do
+      expect(page).to have_content(project.name)
+    end
+  end
+
   scenario 'User must enter first name, last name, email, password, password confirmation' do
     visit root_path
     click_on 'Sign Up'
