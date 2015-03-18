@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :verify_user
   protect_from_forgery with: :exception
-  helper_method :current_user, :current_user_or_admin
+  helper_method :current_user, :current_user_or_admin, :current_user_comember_or_admin
 
   def current_user
     @current_user ||= User.find_by(:id => session[:current_user_id])
@@ -9,6 +9,15 @@ class ApplicationController < ActionController::Base
 
   def current_user_or_admin(user)
     user == current_user || current_user.admin
+  end
+
+  def current_user_comember_or_admin(user)
+    comember = if current_user.projects.count > 0
+      current_user.projects.each do |project|
+        project.users.include?(user) ? (return true) : (return false)
+      end
+    end
+    user == current_user || comember || current_user.admin
   end
 
   def verify_user

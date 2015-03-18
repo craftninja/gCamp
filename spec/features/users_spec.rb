@@ -22,7 +22,7 @@ feature 'Users -' do
     expect(page).to have_content('Sign into gCamp')
   end
 
-  scenario 'Users cannot edit other users, see their email' do
+  scenario 'Users cannot edit other users, see their email unless member of same project' do
     user = create_user
     other_user = create_user
 
@@ -34,6 +34,19 @@ feature 'Users -' do
     click_on other_user.full_name
     expect(page).to_not have_content('Edit')
     expect(page).to_not have_content(other_user.email)
+    visit edit_user_path(other_user)
+    expect(page).to have_content("The page you were looking for doesn't exist")
+
+    project = create_project
+    create_membership(project, user)
+    create_membership(project, other_user)
+
+    visit users_path
+    expect(page).to have_content('Edit', count: 1)
+    expect(page).to have_content(other_user.email)
+    click_on other_user.full_name
+    expect(page).to_not have_content('Edit')
+    expect(page).to have_content(other_user.email)
     visit edit_user_path(other_user)
     expect(page).to have_content("The page you were looking for doesn't exist")
   end
