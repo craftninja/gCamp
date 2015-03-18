@@ -16,4 +16,8 @@
     <dt>Email</dt>
     <dd><%= mail_to @user.email %></dd>
   <% end %>
+  <% if @user.pivotal_tracker_token %>
+    <dt>Pivotal Tracker Token</dt>
+    <dd><%= @user.pivotal_tracker_token[0..3] + @user.pivotal_tracker_token[4..@user.pivotal_tracker_token.length].gsub(/./, '*') %></dd>
+  <% end %>
 </dl>

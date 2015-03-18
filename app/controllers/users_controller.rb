@@ -43,11 +43,17 @@ class UsersController < ApplicationController
   private
 
   def user_params
+    user_params = params.require(:user).permit(
+      :first_name,
+      :last_name,
+      :email,
+      :password,
+      :password_confirmation,
+      :pivotal_tracker_token)
     if current_user.admin
-      params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :admin)
-    else
-      params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+      user_params.merge(:admin => params[:user][:admin])
     end
+    user_params
   end
 
   def set_user

@@ -66,6 +66,7 @@ feature 'Users -' do
     fill_in 'Email', with: email
     fill_in 'Password', with: password
     fill_in 'Password Confirmation', with: password
+    fill_in 'Pivotal Tracker Token', with: '1234567890abcdef1234567890abcdef'
     expect(page).to have_link('Cancel')
     click_on 'Create User'
     within '.page-header' do
@@ -77,6 +78,7 @@ feature 'Users -' do
     within '.page-header' do
       expect(page).to have_content("#{fname} #{lname}")
     end
+    expect(page).to have_content('1234****************************')
     expect(page).to_not have_link(email)
   end
 
@@ -91,9 +93,14 @@ feature 'Users -' do
     fill_in 'First Name', with: fname
     fill_in 'Last Name', with: lname
     fill_in 'Email', with: "#{lname}@example.com"
+    fill_in 'Pivotal Tracker Token', with: '1234567890abcdef1234567890abcdef'
     click_on 'Update User'
+    within 'table' do
+      click_on "#{fname} #{lname}"
+    end
     expect(page).to have_content("#{fname} #{lname}")
     expect(page).to have_content("#{lname}@example.com")
+    expect(page).to have_content('1234****************************')
   end
 
   scenario 'User must enter first name, last name and email' do
