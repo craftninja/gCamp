@@ -1,0 +1,33 @@
+<div class="page-header">
+  <div class="pull-right">
+    (showing first 500)
+  </div>
+  <h1>Stories for <%= @project %></h1>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <th>
+      Story
+    </th>
+    <th>
+      Estimate
+    </th>
+    <th>
+      Labels
+    </th>
+    <th>
+      Current State
+    </th>
+  </thead>
+  <tbody>
+    <% @stories.each do |story| %>
+    <tr>
+        <td><%= link_to story[:description], "https://www.pivotaltracker.com/n/projects/1183326" %></td>
+        <td><%= story[:estimate] %></td>
+        <td><%= story[:labels].join(', ') %></td>
+        <td><%= story[:current_state] %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

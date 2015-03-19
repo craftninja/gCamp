@@ -16,5 +16,6 @@ Rails.application.routes.draw do
     end
     resources :memberships, only: [:index, :create, :update, :destroy]
   end
+  resources :tracker_projects, only: [:show]
 
 end

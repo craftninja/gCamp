@@ -41,7 +41,7 @@
       <% @tracker_projects.each do |name, id| %>
         <tr>
           <td>
-            <%= name %>
+            <%= link_to name, tracker_project_path(id: id, project_name: name) %>
           </td>
         </tr>
       <% end %>
