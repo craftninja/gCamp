@@ -10,7 +10,8 @@ def create_user(options = {})
     :last_name => "Person #{rand(100..999)}",
     :email => "person#{rand(1000..9999)}@example.com",
     :password => "#{rand(100..999)}",
-    :admin => false
+    :admin => false,
+    :pivotal_tracker_token => nil
   }.merge(options))
 end
 

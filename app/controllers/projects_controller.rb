@@ -9,6 +9,10 @@ class ProjectsController < ApplicationController
     else
       @projects = current_user.projects
     end
+
+    if current_user.pivotal_tracker_token
+      @tracker_projects = PivotalTracker.new.get_projects(current_user.pivotal_tracker_token)
+    end
   end
 
   def new

@@ -10,6 +10,7 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bcrypt', '~> 3.1.7'
+gem 'faraday', '~> 0.9.1'
 
 group :production do
   gem 'rails_12factor', '~> 0.0.3'
@@ -18,4 +19,5 @@ end
 group :test, :development do
   gem 'rspec-rails', '~> 3.2.0'
   gem 'capybara', '~> 2.4.4'
+  gem 'dotenv-rails', '~> 2.0.0'
 end

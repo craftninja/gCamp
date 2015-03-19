@@ -73,6 +73,14 @@ feature 'Projects -' do
     end
   end
 
+  scenario 'Users with Pivotal Tracker Tokens can see Tracker projects listed' do
+    user = create_user(:pivotal_tracker_token => ENV['PIVOTAL_TRACKER_TOKEN'])
+    login(user)
+    visit projects_path
+    expect(page).to have_content('Pivotal Tracker Projects')
+    expect(all('table')[1].all('tr').count > 0).to be(true)
+  end
+
   scenario 'Owners can edit and delete projects' do
     login
     visit '/projects'
